@@ -1,5 +1,6 @@
 const ProductsModel = require('../models/products')
 
+
 async  function get(req, res){
     const {id} =  req.params 
 
@@ -11,6 +12,49 @@ async  function get(req, res){
     
 }
 
+async function post(req,res){
+    const {
+        name,
+        brand,
+        price,
+    } = req.body
+
+    const products = new ProductsModel({
+        name,
+        brand,
+        price,
+    })
+
+    products.save()
+
+    res.send({
+        message: 'sucesso'
+    })}
+
+
+async function put(req,res){
+    const {id}= req.params
+
+    const product = await ProductsModel.findOneAndUpdate({_id:id}, req.body, {new:true})
+
+    res.send({
+        message: 'sucess',
+        product,
+    })
+
+    //const product = await ProductsModel.findOne({ _id:id })
+
+   /*  await product.updateOne(req.body)
+
+    res.send({
+        message: 'sucesso',
+        product,
+    }) */
+
+}
+
 module.exports= {
     get,
+    post,
+    put,
 }
